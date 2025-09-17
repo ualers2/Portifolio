@@ -51,7 +51,7 @@ jobs:
     # 5️⃣ Copiar arquivos para VPS
     - name: Copy files to VPS
       run: |
-        rsync -avz --delete dist/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/home/administrator/deploys/portfolio
+        rsync -avz --delete front-end/dist/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/home/administrator/deploys/portfolio
 
 
     # 6️⃣ Buildar e subir containers na VPS

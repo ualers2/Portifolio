@@ -25,10 +25,12 @@ jobs:
         node-version: 20
 
     # 3️⃣ Instalar dependências e build
-    - name: Install dependencies
+    - name: Install dependencies (front-end)
+      working-directory: front-end
       run: npm ci
 
-    - name: Build project
+    - name: Build project (front-end)
+      working-directory: front-end
       run: npm run build
 
     # 4️⃣ Configurar SSH

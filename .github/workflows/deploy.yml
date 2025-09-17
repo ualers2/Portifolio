@@ -1,12 +1,16 @@
 name: Deploy Portfolio
 
+
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - main
 
+
 jobs:
   build-and-deploy:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -42,5 +46,13 @@ jobs:
     # 6️⃣ Buildar e subir containers na VPS
     - name: Deploy Docker Compose
       run: |
-        ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
-        "cd /home/administrator/deploys/portfolio && docker-compose down && docker-compose up -d --build"
+        ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "
+          cd /home/administrator/deploys/portfolio && \
+          # Parar e remover containers existentes
+          docker-compose down -v --remove-orphans && \
+          # Opcional: remover imagens antigas dos serviços específicos
+          docker rmi \$(docker images -q portfolio_landing) || true && \
+          docker rmi \$(docker images -q portfolio_api) || true && \
+          # Subir containers limpos
+          docker-compose up -d --build
+        "

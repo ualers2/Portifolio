@@ -56,6 +56,12 @@ jobs:
           --exclude .git \
           --exclude front-end/node_modules
 
+    - name: Install jq on VPS
+      run: |
+        ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "
+          sudo apt-get update && sudo apt-get install -y jq
+        "
+        
     - name: Create Firebase.json on VPS
       run: |
         ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "

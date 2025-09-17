@@ -8,9 +8,7 @@ import datetime
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), 'Keys', '.env'))
 
-firebase_json_str = os.getenv("DATABASEPATH")
-firebase_config = json.loads(firebase_json_str)
-cred = credentials.Certificate(firebase_config)
+cred = credentials.Certificate(os.getenv('DATABASEPATH'))
 firebase_app = firebase_admin.initialize_app(cred, {
     'databaseURL': os.getenv('DATABASEURL')
 }, name="app1")

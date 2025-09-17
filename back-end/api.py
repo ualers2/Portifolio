@@ -4,8 +4,13 @@ import firebase_admin
 from firebase_admin import credentials, db
 import os
 import json
+import logging
 import datetime
 from dotenv import load_dotenv
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), 'Keys', '.env'))
 
 cred = credentials.Certificate(os.getenv('DATABASEPATH'))
@@ -30,6 +35,7 @@ def contact():
             "id": new_ref.key
         }), 201
     except Exception as e:
+        logger.error(f"e {e}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":

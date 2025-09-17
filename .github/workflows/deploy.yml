@@ -56,17 +56,11 @@ jobs:
           --exclude .git \
           --exclude front-end/node_modules
 
-    - name: Install jq on VPS
-      run: |
-        ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "
-          sudo apt-get update && sudo apt-get install -y jq
-        "
-        
     - name: Create Firebase.json on VPS
       run: |
         ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "
           mkdir -p /home/administrator/deploys/portfolio/back-end/Keys
-          echo '${{ secrets.FIREBASE_KEYS }}' | jq '.' > /home/administrator/deploys/portfolio/back-end/Keys/Firebase.json
+          echo '${{ secrets.FIREBASE_KEYS }}' | base64 --decode > /home/administrator/deploys/portfolio/back-end/Keys/Firebase.json
         "
 
     - name: Create .env on VPS

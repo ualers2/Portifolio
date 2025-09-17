@@ -3,12 +3,15 @@ from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, db
 import os
+import json
 import datetime
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), 'Keys', '.env'))
 
-cred = credentials.Certificate(os.getenv('DATABASEPATH'))
-firebase_admin.initialize_app(cred, {
+firebase_json_str = os.getenv("DATABASEPATH")
+firebase_config = json.loads(firebase_json_str)
+cred = credentials.Certificate(firebase_config)
+firebase_app = firebase_admin.initialize_app(cred, {
     'databaseURL': os.getenv('DATABASEURL')
 }, name="app1")
 
@@ -22,7 +25,7 @@ def contact():
         if not data:
             return jsonify({"error": "Nenhum dado enviado"}), 400
         data["timestamp"] = datetime.datetime.utcnow().isoformat()
-        ref = db.reference("contacts", app=app1)
+        ref = db.reference("contacts", app=firebase_app)
         new_ref = ref.push(data)
         return jsonify({
             "message": "Mensagem salva com sucesso!",

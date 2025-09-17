@@ -6,7 +6,7 @@ import os
 import datetime
 from Keys.FirebaseAppKeys import init_firebase
 app = Flask(__name__)
-CORS(app) 
+CORS(app, origins=['https://portifolio-ualerson.site']) 
 
 app1 = init_firebase()
 @app.route("/api/contact", methods=["POST"])

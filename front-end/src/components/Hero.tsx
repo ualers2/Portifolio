@@ -52,7 +52,7 @@ const Hero = () => {
             </div>
             <div className="flex items-center gap-2 bg-black/10 backdrop-blur-sm rounded-full px-4 py-2">
               <Zap className="text-accent" size={20} />
-              <span className="font-semibold">20+ Projetos</span>
+              <span className="font-semibold">8+ Projetos</span>
             </div>
             <div className="flex items-center gap-2 bg-black/10 backdrop-blur-sm rounded-full px-4 py-2">
               <Target className="text-accent" size={20} />

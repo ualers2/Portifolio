@@ -56,11 +56,11 @@ jobs:
           --exclude .git \
           --exclude front-end/node_modules
 
-    - name: Create FirebaseAppKeys.py on VPS
+    - name: Create Firebase.json on VPS
       run: |
         ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "
           mkdir -p /home/administrator/deploys/portfolio/back-end/Keys && \
-          printf '%s' '${{ secrets.FIREBASE_KEYS }}' > /home/administrator/deploys/portfolio/back-end/Keys/FirebaseAppKeys.py
+          printf '%s' '${{ secrets.FIREBASE_KEYS }}' > /home/administrator/deploys/portfolio/back-end/Keys/Firebase.json
         "
 
     # 6️⃣ Buildar e subir containers na VPS

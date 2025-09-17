@@ -48,11 +48,13 @@ jobs:
         echo "known_hosts:"
         cat ~/.ssh/known_hosts
 
-    # 5️⃣ Copiar arquivos para VPS
-    - name: Copy files to VPS
+    # 5️⃣ Copiar todo o projeto para VPS
+    - name: Copy entire project to VPS
       run: |
-        rsync -avz --delete front-end/dist/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/home/administrator/deploys/portfolio
-
+        rsync -avz --delete ./ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/home/administrator/deploys/portfolio \
+          --exclude node_modules \
+          --exclude .git \
+          --exclude front-end/node_modules
 
     # 6️⃣ Buildar e subir containers na VPS
     - name: Deploy Docker Compose

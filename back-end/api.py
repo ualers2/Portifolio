@@ -4,11 +4,17 @@ import firebase_admin
 from firebase_admin import credentials, db
 import os
 import datetime
-from Keys.FirebaseAppKeys import init_firebase
+from dotenv import load_dotenv
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), 'Keys', '.env'))
+
+cred = credentials.Certificate(os.getenv('DATABASEPATH'))
+firebase_admin.initialize_app(cred, {
+    'databaseURL': os.getenv('DATABASEURL')
+}, name="app1")
+
 app = Flask(__name__)
 CORS(app, origins=['https://portifolio-ualerson.site']) 
 
-app1 = init_firebase()
 @app.route("/api/contact", methods=["POST"])
 def contact():
     try:

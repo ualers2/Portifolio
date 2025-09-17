@@ -56,12 +56,19 @@ jobs:
           --exclude .git \
           --exclude front-end/node_modules
 
+    - name: Create FirebaseAppKeys.py on VPS
+      run: |
+        ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "
+          mkdir -p /home/administrator/deploys/portfolio/back-end/Keys && \
+          printf '%s' '${{ secrets.FIREBASE_KEYS }}' > /home/administrator/deploys/portfolio/back-end/Keys/FirebaseAppKeys.py
+        "
+
     # 6️⃣ Buildar e subir containers na VPS
     - name: Deploy Docker Compose
       run: |
         ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "
           cd /home/administrator/deploys/portfolio && \
-          docker-compose down -v --remove-orphans || true &&\
+          docker-compose down -v --remove-orphans || true && \
           docker rm -f landing api || true && \
           docker rmi \$(docker images -q portfolio_landing) || true && \
           docker rmi \$(docker images -q portfolio_api) || true && \

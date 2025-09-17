@@ -61,11 +61,9 @@ jobs:
       run: |
         ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "
           cd /home/administrator/deploys/portfolio && \
-          # Parar e remover containers existentes
-          docker-compose down -v --remove-orphans && \
-          # Opcional: remover imagens antigas dos serviços específicos
+          docker-compose down -v --remove-orphans || true &&\
+          docker rm -f landing api || true && \
           docker rmi \$(docker images -q portfolio_landing) || true && \
           docker rmi \$(docker images -q portfolio_api) || true && \
-          # Subir containers limpos
           docker-compose up -d --build
         "

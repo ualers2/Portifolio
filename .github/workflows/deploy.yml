@@ -59,10 +59,10 @@ jobs:
     - name: Create Firebase.json on VPS
       run: |
         ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "
-          mkdir -p /home/administrator/deploys/portfolio/back-end/Keys && \
-          echo '${{ secrets.FIREBASE_KEYS }}' | sed 's/\\\\n/\\n/g' > /home/administrator/deploys/portfolio/back-end/Keys/Firebase.json
+          mkdir -p /home/administrator/deploys/portfolio/back-end/Keys
+          echo '${{ secrets.FIREBASE_KEYS }}' | jq '.' > /home/administrator/deploys/portfolio/back-end/Keys/Firebase.json
         "
-        
+
     - name: Create .env on VPS
       run: |
         ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "

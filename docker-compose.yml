@@ -1,0 +1,58 @@
+# in docker in docker it must be version 2.2
+# version: '2.2'
+# default version 
+version: '3.8'
+
+services:
+  landing:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile 
+
+    container_name: landing
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    restart: always
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=100
+    command: >
+      sh -c "npm run dev -- --host 0.0.0.0 --port 3000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:3000"] 
+      interval: 129s
+      timeout: 2s
+      retries: 5
+    networks:
+      - rede_externa
+    mem_limit: 500MB
+    cpus: "1.5"
+
+  api:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+
+    container_name: api
+    restart: always
+    working_dir: /app
+    ports:
+      - "3001:3001"
+    command: [
+      "python", "api.py"
+    ]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:3001"] 
+      interval: 129s
+      timeout: 2s
+      retries: 5
+    networks:
+      - rede_externa
+    mem_limit: 500MB
+    cpus: "1.5"
+
+
+networks:
+  rede_externa:
+    external: true

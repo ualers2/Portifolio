@@ -38,6 +38,15 @@ jobs:
       uses: webfactory/ssh-agent@v0.9.1
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    
+    - name: Add remote host to known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
+        ssh-keyscan -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+        chmod 644 ~/.ssh/known_hosts
+        echo "known_hosts:"
+        cat ~/.ssh/known_hosts
 
     # 5️⃣ Copiar arquivos para VPS
     - name: Copy files to VPS

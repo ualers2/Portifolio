@@ -8,10 +8,10 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "0.0.0.0", 
     port: 8080,
-    allowedHosts: ['host.docker.internal', "localhost", "portifolio-ualerson.site"],
+    allowedHosts: ['host.docker.internal', "localhost", 'www.portifolio-ualerson.site', "portifolio-ualerson.site"],
     hmr: {
       protocol: 'wss',
-      host: 'portifolio-ualerson.site', 
+      host: 'www.portifolio-ualerson.site', 
     },
     watch: {
       ignored: ['**/node_modules/**'],
